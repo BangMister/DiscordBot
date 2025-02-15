@@ -1,4 +1,4 @@
-name: Auto Commit Bot
+name: DiscordBot
 
 on:
   schedule:
