@@ -1,4 +1,4 @@
-name: Bishwa's Daily Commit
+name: Daily Commit
 
 on:
   schedule:
@@ -18,7 +18,7 @@ jobs:
       run: |
         FILE="commit_number.md"
         if [ ! -f "$FILE" ]; then
-          echo "Hello, my name is bishwa shah" > "$FILE"
+          echo "Hello, my name is MrBang" > "$FILE"
           echo "commit number: 1" >> "$FILE"
         else
           CURRENT_COUNT=$(grep -oP 'commit number: \K\d+' "$FILE")
@@ -28,10 +28,10 @@ jobs:
           NEXT_COUNT=$((CURRENT_COUNT + 1))
           sed -i "/commit number: /c\commit number: $NEXT_COUNT" "$FILE"
         fi
-        git config --global user.name "beesou777"
-        git config --global user.email "sbeesou@gmail.com"
+        git config --global user.name "BangMister"
+        git config --global user.email "mrbang.crypto@gmail.com"
         git add "$FILE"
-        git commit -m "Hello, my name is bishwa shah nice to meet you"
-        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/beesou777/mean-commit.git
+        git commit -m "Hello, my name is MrBang nice to meet you"
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/BangMister/mean-commit.git
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
