@@ -1,29 +1,37 @@
-name: DiscordBot
+name: Bishwa's Daily Commit
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight UTC
-  workflow_dispatch:  # Allows manual trigger
+    - cron: '0 0 * * *'  # Every day at midnight UTC to runs every 7-8 min set cron to '*/1 * * * *'
 
 jobs:
-  update-file:
+  commit:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        ref: main 
 
-      - name: Set Up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.x'
-
-      - name: Run Update Script
-        run: python update.py
-
-      - name: Commit and Push Changes
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "GitHub Action Bot"
-          git add log.txt
-          git commit -m "Automated update: $(date +'%Y-%m-%d %H:%M:%S')"
-          git push
+    - name: Create file and commit
+      run: |
+        FILE="commit_number.md"
+        if [ ! -f "$FILE" ]; then
+          echo "Hello, my name is bishwa shah" > "$FILE"
+          echo "commit number: 1" >> "$FILE"
+        else
+          CURRENT_COUNT=$(grep -oP 'commit number: \K\d+' "$FILE")
+          if [ -z "$CURRENT_COUNT" ]; then
+            CURRENT_COUNT=0
+          fi
+          NEXT_COUNT=$((CURRENT_COUNT + 1))
+          sed -i "/commit number: /c\commit number: $NEXT_COUNT" "$FILE"
+        fi
+        git config --global user.name "beesou777"
+        git config --global user.email "sbeesou@gmail.com"
+        git add "$FILE"
+        git commit -m "Hello, my name is bishwa shah nice to meet you"
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/beesou777/mean-commit.git
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
